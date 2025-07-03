@@ -1,0 +1,163 @@
+package sunnxtPages;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
+
+import utility.BasePage;
+
+public class SignupPageSunnxt extends BasePage{
+
+	public SignupPageSunnxt(WebDriver driver) {
+		super(driver);
+	}
+
+	@FindBy (name = "email")
+	private WebElement emailField;
+
+	@FindBy (name = "password")
+	private WebElement passwordField;
+
+	@FindBy (name = "name")
+	private WebElement nameField;
+
+	@FindBy (name = "age")
+	private WebElement ageField;
+
+	@FindBy (xpath = "//span[text()='male']")
+	private WebElement male;
+
+	@FindBy (xpath = "//span[text()='female']")
+	private WebElement female;
+
+	@FindBy (name = "country")
+	private WebElement country;
+
+	@FindBy (name = "state")
+	private WebElement state;
+
+	@FindBy (id = "terms")
+	private WebElement termsAndcondition;
+
+	@FindBy (xpath = "//button[text()='Sign Up ']")
+	private WebElement signupButton;
+	
+	
+
+	public void enterLoginId(String loginid) {
+waitForElementToBeClickable(5, emailField);
+		emailField.sendKeys(loginid);
+	
+	}
+
+	public void enterPassword(String newpassword) {
+
+		passwordField.sendKeys(newpassword);
+	}
+
+	public void enterUserName (String name) {
+		nameField.sendKeys(name);
+	}
+	
+
+	public void setAge(int age) {
+		Select sel=new Select(ageField);
+
+		String ageRange="";
+
+		if(age>=18 && age<=25) {
+			ageRange ="18-25 Years";
+		}
+		else if (age>=26 && age<=30) {
+			ageRange ="26-30 Years";
+		}
+		else if (age>=31 && age<=35) {
+			ageRange="31-35 Years";
+		}
+		else if (age>=36 && age<=40) {
+			ageRange="36-40 Years";
+		}
+		else if (age>=41 && age<=50) {
+			ageRange="41-50 Years";
+		}
+		else if (age>=51 && age<=60) {
+			ageRange="51-60 Years";
+		}
+		else if (age>=61 && age<=70) {
+			ageRange="61-70 Years";
+		}
+		else if (age>=71 && age<=80) {
+			ageRange="71-80 Years";
+		}
+		else if (age>=81 && age<=90) {
+			ageRange="81-90 Years";
+		}
+		else {
+			throw new IllegalStateException("Age isn't in the range");
+		}
+		sel.selectByVisibleText(ageRange);
+	}
+	public void genderSelection(String gender) {
+		if(gender.equalsIgnoreCase("male")) {
+			waitForElementToBeClickable(3, male);
+			male.click();
+		}else if(gender.equalsIgnoreCase("female")) {
+			waitForElementToBeClickable(3, female);
+			female.click();
+		}else {
+			throw new IllegalStateException("Given gender isn't listed ");
+		}
+	}
+
+
+	public void countriesSelection(String CountryName) {
+		waitForDropdownOptions(country, 1, 10);
+		
+		Select selectCountry =new Select(country);
+		List<WebElement> options = selectCountry.getOptions();
+		List <String> countryTexts=new ArrayList<String>();
+		for(WebElement option: options) {
+			countryTexts.add(option.getText().trim());
+		}
+
+		if(countryTexts.contains(CountryName)) {
+			selectCountry.selectByVisibleText(CountryName);
+			System.out.println(CountryName +" is selected");
+		}
+	}
+
+	public void statesSelection(String StateName) {
+		waitForDropdownOptions(state, 1, 30);
+
+		Select selectState =new Select(state);
+		List<WebElement> options = selectState.getOptions();
+		List <String> stateText=new ArrayList<String>();
+		for(WebElement option: options) {
+			stateText.add(option.getText().trim());
+		}
+
+		if(stateText.contains(StateName)) {
+
+			waitForTextToBePresent(20, state, StateName);
+			selectState.selectByVisibleText(StateName);
+			System.out.println(StateName +" is selected");
+		}
+		else {
+			System.out.println("failure");
+		}
+
+	}
+
+
+	public void clickTermsAndCondition() {
+		termsAndcondition.click();
+	}
+
+	public void createAccount() {
+		signupButton.click();
+	}
+}
