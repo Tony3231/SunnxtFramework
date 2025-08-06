@@ -23,13 +23,13 @@ public class TC_ContentPlaybackShorts extends baseFunction{
 		contentLanguageSelection cls=new contentLanguageSelection(driver);
 		//cls.clickAllowButton();
 		//cls.clickLanguage("tamil");
-		//cls.selectAllLanguages("selectall");
+		cls.selectAllLanguages("selectall");
 		
 		cls.clickDoneButton();
 
 		HomepageSunnxt hp =new HomepageSunnxt(driver);
-		hp.clickProfileIcon();
-		hp.clickSignInButton();
+		implicitWait(10);
+		hp.clickSignIn();
 
 		LoginPageSunnxt lp=new LoginPageSunnxt(driver);
 		lp.userDetail("9841595069", "123456");
@@ -38,9 +38,10 @@ public class TC_ContentPlaybackShorts extends baseFunction{
 		tm.redirectionToShorts();
 		implicitWait(30);
 		
-		hp.contentPlayBackCheck(-1, -1);
+		hp.contentPlayBackCheck(9, -1);
 
 		ContentDetailPageSunnxt cdp =new ContentDetailPageSunnxt(driver);
+		cdp.getContentName();
 		cdp.clickPlayButton();
 
 		

@@ -3,6 +3,8 @@ package sunnxtPages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +14,9 @@ import utility.BasePage;
 
 public class SignupPageSunnxt extends BasePage{
 
+    private static final Logger logger = LogManager.getLogger(SignupPageSunnxt.class);
+
+	
 	public SignupPageSunnxt(WebDriver driver) {
 		super(driver);
 	}
@@ -51,6 +56,7 @@ public class SignupPageSunnxt extends BasePage{
 	public void enterLoginId(String loginid) {
 waitForElementToBeClickable(5, emailField);
 		emailField.sendKeys(loginid);
+		logger.info("User Id - {}", loginid);
 	
 	}
 
@@ -61,6 +67,8 @@ waitForElementToBeClickable(5, emailField);
 
 	public void enterUserName (String name) {
 		nameField.sendKeys(name);
+		logger.info("Profile Name - {}", name);
+
 	}
 	
 
@@ -100,16 +108,22 @@ waitForElementToBeClickable(5, emailField);
 			throw new IllegalStateException("Age isn't in the range");
 		}
 		sel.selectByVisibleText(ageRange);
+		logger.info("Selected age {}", ageRange);
+
 	}
 	public void genderSelection(String gender) {
 		if(gender.equalsIgnoreCase("male")) {
 			waitForElementToBeClickable(3, male);
 			male.click();
+			logger.info("Gender selection - Male");
 		}else if(gender.equalsIgnoreCase("female")) {
 			waitForElementToBeClickable(3, female);
 			female.click();
+			logger.info("Gender selection - Female");
+
 		}else {
 			throw new IllegalStateException("Given gender isn't listed ");
+
 		}
 	}
 
@@ -126,8 +140,11 @@ waitForElementToBeClickable(5, emailField);
 
 		if(countryTexts.contains(CountryName)) {
 			selectCountry.selectByVisibleText(CountryName);
-			System.out.println(CountryName +" is selected");
+			logger.info(CountryName + " is selected");
+		}else {
+			logger.error("Country '" + CountryName + "' not found in dropdown.");
 		}
+		
 	}
 
 	public void statesSelection(String StateName) {
@@ -147,7 +164,7 @@ waitForElementToBeClickable(5, emailField);
 			System.out.println(StateName +" is selected");
 		}
 		else {
-			System.out.println("failure");
+			logger.error("State '" + StateName + "' not found in dropdown.");
 		}
 
 	}
@@ -159,5 +176,6 @@ waitForElementToBeClickable(5, emailField);
 
 	public void createAccount() {
 		signupButton.click();
+		logger.info("User has been created");
 	}
 }

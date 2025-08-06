@@ -1,5 +1,6 @@
 package sunnxtPages;
 
+import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -7,12 +8,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import utility.BasePage;
+import utility.Log;
 
 public class PlayerControlsSunnxt extends BasePage {
 	public PlayerControlsSunnxt(WebDriver driver) {
 		super(driver);
 	}
 
+    private static final Logger logger = Log.getLogger(PlayerControlsSunnxt.class);
+
+	
 	@FindBy (id = "player_html5_api")
 	private WebElement player;
 
@@ -57,17 +62,22 @@ public class PlayerControlsSunnxt extends BasePage {
 	//	waitForElementToBeClickable(1, qualityOption);
 		qualityOption.click();
 		implicitWait(3);
+        logger.info("Opened quality settings");
 		if(quality.equalsIgnoreCase("1080")) {
 			highQuality.click();
+			logger.info("Changed quality to 1080p");
 		}else if (quality.equalsIgnoreCase("720")) {
 			mediumQuality.click();
+            logger.info("Changed quality to 720p");
 		}else if (quality.equalsIgnoreCase("360")) {
 			lowQuality.click();
+            logger.info("Changed quality to 360p");
 		}
 		else if(quality.equalsIgnoreCase("auto")) {
 			autoQuality.click();
+            logger.info("Set quality to Auto");
 		}else {
-			System.out.println("Given quality isn't available");
+            logger.warn("Invalid quality option provided: " + quality);
 		}
 	}
 	
@@ -75,53 +85,76 @@ public class PlayerControlsSunnxt extends BasePage {
 		boolean isCaptionDisplayed = captions.isDisplayed();
 		if(isCaptionDisplayed) {
 			captions.click();
+            logger.info("Captions button clicked");
+
 			if(EnableOrDisable.equalsIgnoreCase("Enable")) {
 				waitForElementToBeClickable(3, captionsTurnOn);
 				captionsTurnOn.click();
+                logger.info("Captions enabled");
+
 			}
 			else if (EnableOrDisable.equalsIgnoreCase("Disable")) {
 				waitForElementToBeClickable(2, captionsTurnOff);
 				captionsTurnOff.click();
+                logger.info("Captions disabled");
+
 			}
 			else {
-				System.out.println("Invalid Input");
+                logger.warn("Invalid caption option provided: " + EnableOrDisable);
 			}
 		}
 		else {
-			System.out.println("Captions button is not visible. Continuing the test.");
+            logger.warn("Captions button not visible. Skipping caption change.");
 		}
 	}
 
 	public void exitFullScreen() {
 		waitForElementToBeClickable(5, exitFullScreen);
 		exitFullScreen.click();
+        logger.info("Exited fullscreen mode");
+
 	}
 
 	public void moveFocusToPlayer() {
+//		try {
+//			Thread.sleep(5000);
+//		} catch (Exception e) {
+//e.getCause();
+//		}
+//		contextClick(player);
+		
 		try {
-			Thread.sleep(5000);
-		} catch (Exception e) {
-e.getCause();
-		}
-		contextClick(player);
+            Thread.sleep(5000);
+            contextClick(player);
+            logger.info("Focused on player and performed context click");
+        } catch (Exception e) {
+            logger.error("Error while moving focus to player", e);
+        }
+		
 	}
 
 	public void fullScreen() {
 		waitForElementToBeVisible(2, fullScreen);
 		fullScreen.click();
+        logger.info("Entered fullscreen mode");
+
 	}
 
 	public void pauseTheContent() {
 		waitForElementToBeClickable(2, pause);
 		pause.click();
+        logger.info("Paused the content");
+
 	}
 
 	public void setVolume(double level) {
 		if(level<0.1 || level>1.0) {
-			System.out.println("Volume must be between 0.1 to 1.0");;
+            logger.warn("Volume level must be between 0.1 and 1.0. Provided: " + level);
 		}
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("document.getElementById('player_html5_api').volume = arguments[0];",level);
+        logger.info("Volume set to: " + level);
+
 	}
 
 	public void seekContent(double SeekPosition) {
@@ -136,8 +169,10 @@ e.getCause();
 
 		if(SeekPosition <= totalDuration) {
 			js.executeScript("document.getElementById('player_html5_api').currentTime = arguments[0];", SeekPosition);
+            logger.info("Seeked content to position: " + SeekPosition + "s");
+
 		}else {
-			System.out.println("Seek position exceeds video duration. Skipping seek.");
+            logger.warn("Seek position exceeds video duration. Skipping seek.");
 		}
 	}
 

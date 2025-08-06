@@ -25,15 +25,15 @@ public class TC_ContentPlaybackHome extends baseFunction {
 		cls.clickDoneButton();
 
 		HomepageSunnxt hp =new HomepageSunnxt(driver);
-		hp.clickProfileIcon();
-		hp.clickSignInButton();
+		implicitWait(10);
+		hp.clickSignIn();
 
 		LoginPageSunnxt lp=new LoginPageSunnxt(driver);
 		lp.userDetail("9841595069", "123456");
 		
 		implicitWait(30);
 		
-		hp.contentPlayBackCheck(5, -1);
+		hp.contentPlayBackCheck(-1, -1);
 
 		ContentDetailPageSunnxt cdp =new ContentDetailPageSunnxt(driver);
 		cdp.clickPlayButton();

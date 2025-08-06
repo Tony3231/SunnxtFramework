@@ -17,19 +17,18 @@ public class TC_Signup extends baseFunction {
 		launchSunnxt();
 	}
 	
-	@Test (enabled = false, invocationCount = 3)
+	@Test (enabled = true, invocationCount = 1)
 	public void createaccount() throws InterruptedException {
 		contentLanguageSelection cls=new contentLanguageSelection(driver);
 		implicitWait(10);
-		cls.clickAllowButton();
-		implicitWait(5);
+		//cls.clickAllowButton();
+		//implicitWait(5);
 		cls.clickLanguage("tamil");
 		cls.clickLanguage("telugu");
 		cls.clickDoneButton();
 		HomepageSunnxt hp=new HomepageSunnxt(driver);
 		implicitWait(10);
-		hp.clickProfileIcon();
-		hp.clickSignInButton();
+		hp.clickSignIn();
 		implicitWait(10);
 		LoginPageSunnxt lp =new LoginPageSunnxt(driver);
 		String user= randomEmail();

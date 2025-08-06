@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +15,9 @@ import utility.BasePage;
 
 public class LiveTVPageSunnxt extends BasePage {
 
+    private static final Logger logger = LogManager.getLogger(LiveTVPageSunnxt.class);
+
+	
 	public LiveTVPageSunnxt(WebDriver driver) {
 		super(driver);
 	}
@@ -49,8 +54,10 @@ public class LiveTVPageSunnxt extends BasePage {
 			WebElement targetlanguage = liveTVTabs.get(LanguageIndex);
 			targetlanguage.click();
 			System.out.println("Targeted carousel name: " +liveTVTabs.get(LanguageIndex).getText());
+			logger.info("Targeted carousel name: {}", liveTVTabs.get(LanguageIndex).getText());
 		}else {
-			System.out.println("Provided Language isn't listed here");
+            logger.warn("Provided Language isn't listed here: {}", liveTVTabs.get(LanguageIndex).getText());
+
 		}
 
 		JavascriptExecutor js= (JavascriptExecutor) driver;
@@ -67,8 +74,7 @@ public class LiveTVPageSunnxt extends BasePage {
 		}
 		
 		if (channelIndex >= channelName.size()) {
-			System.out.println("No content at given index: " + channelIndex);
-			
+            logger.error("No content at given index: {}", channelIndex);			
 		}
 		
 		String specificChannel = channelName.get(channelIndex).getText();
@@ -77,10 +83,9 @@ public class LiveTVPageSunnxt extends BasePage {
 			WebElement targetChannel = channelName.get(channelIndex);
 			//scrollIntoView(targetChannel);
 			targetChannel.click();
-			System.out.println("Targeted channel name: " +specificChannel);
+            logger.info("Targeted channel name: {}", specificChannel);
 		}else {
-			System.out.println("Provided Channel isn't listed here");
-		}
+			logger.warn("Provided Channel isn't listed here: {}", specificChannel);		}
 		
 		
 	}

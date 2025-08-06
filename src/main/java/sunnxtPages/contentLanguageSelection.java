@@ -1,13 +1,16 @@
 package sunnxtPages;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import utility.BasePage;
+import utility.Log;
 
 public class contentLanguageSelection extends BasePage {
 
+    private static final Logger logger = Log.getLogger(contentLanguageSelection.class);
 
 
 	public contentLanguageSelection(WebDriver driver) {
@@ -50,41 +53,41 @@ public class contentLanguageSelection extends BasePage {
 	public void clickAllowButton() {
 		waitForElementToBeClickable(10, allowButton);
 		allowButton.click();
-		System.out.println("Notification has been allowed");
+        logger.info("Notification has been allowed");
 	}
 
 	public void ClickCancelButton() {
 		waitForElementToBeClickable(10, cancelButton);
 		cancelButton.click();
-		System.out.println("Notification has been disabled");
+        logger.info("Notification has been disabled");
 	}
 
 	public void clickLanguage(String language) {
 		if(language.equalsIgnoreCase("Tamil")) {
 			//waitForElementToBeClickable(5,tamilLanguage );
 			tamilLanguage.click();
-			System.out.println("Tamil Language has been selected");
+            logger.info("Tamil Language has been selected");
 		}
 		else if(language.equalsIgnoreCase("Telugu")) {
 			//waitForElementToBeClickable(5,teluguLanguage );
 			teluguLanguage.click();
-			System.out.println("Telugu Language has been selected");
+            logger.info("Telugu Language has been selected");
 
 		}
 		else if(language.equalsIgnoreCase("Malayalam")) {
 			//	waitForElementToBeClickable(5,malayalamLanguage );
 			malayalamLanguage.click();
-			System.out.println("Malayalam Language has been selected");
+			logger.info("Malayalam Language has been selected");
 		}
 		else if(language.equalsIgnoreCase("Kannada")) {
 			//waitForElementToBeClickable(5,kannadaLanguage );
 			kannadaLanguage.click();
-			System.out.println("Kannada Language has been selected");
+			logger.info("Kannada Language has been selected");
 		}
 		else if(language.equalsIgnoreCase("Hindi")) {
 			//waitForElementToBeVisible(5,hindiLanguage );
 			hindiLanguage.click();
-			System.out.println("Hindi Language has been selected");
+			logger.info("Hindi Language has been selected");
 		}
 		else if(language.equalsIgnoreCase("Bengali")) {
 			//waitForElementToBeVisible(5,bengaliLanguage );
@@ -93,12 +96,15 @@ public class contentLanguageSelection extends BasePage {
 		else if(language.equalsIgnoreCase("Marathi")) {
 			//waitForElementToBeVisible(5,marathiLanguage );
 			marathiLanguage.click();
+            logger.info("Marathi Language has been selected");
 		}
 		else if(language.equalsIgnoreCase("English")) {
 			//waitForElementToBeVisible(5,englishLanguage );
 			englishLanguage.click();
+            logger.info("English Language has been selected");
+
 		}else {
-			System.out.println("Seems language given doesn't listed here");
+			logger.warn("Seems language given doesn't listed here");
 		}
 	}
 
@@ -112,7 +118,7 @@ public class contentLanguageSelection extends BasePage {
 			bengaliLanguage.click();
 			marathiLanguage.click();
 			englishLanguage.click();
-			System.out.println("All Languages has been selected");
+            logger.info("All languages have been selected");
 
 		}
 
@@ -121,6 +127,7 @@ public class contentLanguageSelection extends BasePage {
 	public void clickDoneButton() {
 		//waitForElementToBeVisible(5,doneButton );
 		doneButton.click();
+		
 	}
 
 

@@ -1,13 +1,20 @@
 package sunnxtPages;
 
+
+
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import utility.BasePage;
+import utility.Log;
 
 public class LoginPageSunnxt extends BasePage{
 
+    private static final Logger logger = Log.getLogger(LoginPageSunnxt.class);
+
+	
 	public LoginPageSunnxt(WebDriver driver) {
 		super(driver);
 	}
@@ -43,46 +50,46 @@ public class LoginPageSunnxt extends BasePage{
 
 		implicitWait(10);
 		userIdField.sendKeys(username);
-		System.out.println("Email or Mobile Number has been entered");
+        logger.info("Email or Mobile Number has been entered");
+        
 		passwordFied.sendKeys(password);
-		System.out.println("Password has been entered");
+        logger.info("Password has been entered");
+        
 		loginButton.click();
-		
+        logger.info("Login button clicked");
+
 		
 
-//	    try {
-//	        if (isElementPresent(invalidUserID)) {
-//	            String msg = invalidUserID.getText();
-//	            if (msg.contains("Please enter valid email or mobile number")) {
-//	                System.out.println("Email id or mobile number is invalid: " + msg);
-//	            }
-//	            
-//	            
-//	        } else if (isElementPresent(uservalidation)) {
-//	            String msg = uservalidation.getText();
-//	            if (msg.contains("User does not exist. Please sign up.")) {
-//	                System.out.println("User does not exist: " + msg);
-//	            }
-//	        } else if (isElementPresent(invalidPassword)) {
-//	            String msg = invalidPassword.getText();
-//	            if (msg.contains("Kindly verify your user id or password and try again.")) {
-//	                System.out.println("Invalid password entered: " + msg);
-//	            }
-//	        } else if (isElementPresent(invalidUserID) && isElementPresent(emptyPasswordField)) {
-//	            System.out.println("Both Email ID and Password fields are empty.");
-//	        } else if (isElementPresent(emptyPasswordField)) {
-//	            String msg = emptyPasswordField.getText();
-//	            if (msg.contains("Please enter password")) {
-//	                System.out.println("Password field is empty: " + msg);
-//	            }
-//	        } else {
-//	            System.out.println("User login successful with username: " + username);
-//	        }
-//
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//	        System.out.println("Exception while validating login response: " + e.getMessage());
-//	    }
+	    try {
+	        if (isElementPresent(invalidUserID)) {
+	            String msg = invalidUserID.getText();
+	            if (msg.contains("Please enter valid email or mobile number")) {
+                    logger.warn("Invalid email or mobile: " + msg);
+	            }
+	        } else if (isElementPresent(uservalidation)) {
+	            String msg = uservalidation.getText();
+	            if (msg.contains("User does not exist. Please sign up.")) {
+                    logger.warn("User not found: " + msg);
+	            }
+	        } else if (isElementPresent(invalidPassword)) {
+	            String msg = invalidPassword.getText();
+	            if (msg.contains("Kindly verify your user id or password and try again.")) {
+                    logger.warn("Incorrect password: " + msg);
+	            }
+	        } else if (isElementPresent(invalidUserID) && isElementPresent(emptyPasswordField)) {
+	        	 logger.warn("Both Email ID and Password fields are empty." );
+	        } else if (isElementPresent(emptyPasswordField)) {
+	            String msg = emptyPasswordField.getText();
+	            if (msg.contains("Please enter password")) {
+	            	 logger.warn("Password field is empty: " + msg);
+	            }
+	        } else {
+                logger.info("User login successful with username: " + username);
+	        }
+
+	    } catch (Exception e) {
+            logger.error("Exception during login validation: ", e);
+ }
 
 	}
 
@@ -91,13 +98,16 @@ public class LoginPageSunnxt extends BasePage{
 		if(expectedValidation.equalsIgnoreCase(expectedValidation)) {
 			waitForElementToBeClickable(20, SignupButton);
 			SignupButton.click();
+			logger.info("Redirected to Sign Up page");
+			
 		}else {
-			System.out.println("User already exists");
+			logger.info("User already exists");
 		}
 	}
 
 	public void forgotPasswordPageRedirection() {
 		forgotPasswordButton.click();
+		logger.info("Redirected to Forget Password page");
 	}
 	
 	public boolean isInvalidUserIDVisible() {

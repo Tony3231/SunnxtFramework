@@ -3,6 +3,8 @@ package utility;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -21,6 +23,9 @@ public class BasePage {
 	JavascriptExecutor js;
 	Actions act;
 
+    protected static final Logger logger = LogManager.getLogger(BasePage.class);
+
+	
 	public BasePage(WebDriver driver) {
 		this.driver=driver;
 		PageFactory.initElements(driver, this);
@@ -53,7 +58,7 @@ public class BasePage {
 
 	public void implicitWait(int seconds) {
 		driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
-		System.out.println("Wait for " +seconds +" seconds");
+		//logger.info("Wait for {} seconds", seconds);
 	}
 
 	public void scrollPageWithLoad() {
@@ -85,7 +90,7 @@ public class BasePage {
 	public void scrollByPixel() {
 		js=(JavascriptExecutor)driver;
 		js.executeScript("window.scrollBy(0,300);");
-		System.out.println("Scrolling........" );
+		logger.info("Scrolling........" );
 
 	}
 

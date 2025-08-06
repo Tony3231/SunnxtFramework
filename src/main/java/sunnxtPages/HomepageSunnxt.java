@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -12,9 +13,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import utility.BasePage;
+import utility.Log;
 
 public class HomepageSunnxt extends BasePage{
 
+    private static final Logger logger = Log.getLogger(HomepageSunnxt.class);
 
 	public HomepageSunnxt(WebDriver driver) {
 		super(driver);
@@ -36,39 +39,51 @@ public class HomepageSunnxt extends BasePage{
 	private List<WebElement> content;
 
 
-	public void clickProfileIcon() {
+	public void clickSignIn() {
 		int attempts = 0;
 		while (attempts < 2) {
 			try {
 
 				waitForElementToBeClickable(10, profileIconButton);
 				profileIconButton.click();
-				System.out.println("Profile icon is clicked");
+                logger.info("Profile icon clicked");
 				break;
 			}
 			catch (StaleElementReferenceException e) {
-				System.out.println("Caught StaleElementReferenceException. Retrying...");
+                logger.warn("Caught StaleElementReferenceException. Retrying...");
 			}
 			attempts++;
 		}
-	}
 
-	public void clickSignInButton() {
 		waitForElementToBeClickable(5, signInButton);
 		signInButton.click();
-		System.out.println("Signin button is clicked");
+        logger.info("Signin button clicked");
 	}
 
 	public void clickLogout() {
+		int attempts = 0;
+		while (attempts < 2) {
+			try {
+
+				waitForElementToBeClickable(10, profileIconButton);
+				profileIconButton.click();
+                logger.info("Profile icon clicked");
+				break;
+			}
+			catch (StaleElementReferenceException e) {
+                logger.warn("Caught StaleElementReferenceException. Retrying...");
+			}
+			attempts++;
+		}
 		waitForElementToBeClickable(10, logoutButton);
 		logoutButton.click();
-		System.out.println("Logout button is clicked");
+        logger.info("Logout button clicked");
 
 	}
 
 	public void contentPlayBackCheck(int carouselIndex, int contentIndex) throws InterruptedException {
 		scrollPageWithLoad();
-		System.out.println("Extracting all carousel");
+        logger.info("Extracting all carousel elements...");
 
 		List<String> carouselCollections=new ArrayList<String>();
 
@@ -83,13 +98,11 @@ public class HomepageSunnxt extends BasePage{
 
 		String specificCarousel = carouselList.get(carouselIndex).getText();
 
-
 		if(carouselCollections.contains(specificCarousel)) {
 			WebElement targetCarousel = carouselList.get(carouselIndex);
 			scrollIntoView(targetCarousel);
 			targetCarousel.click();
-			System.out.println("Targeted carousel name: " +specificCarousel);
-
+            logger.info("Targeted carousel: " + specificCarousel);
 
 			int maxDepth = 5;
 			int clickDepth =0;
@@ -97,7 +110,7 @@ public class HomepageSunnxt extends BasePage{
 			while(clickDepth < maxDepth) {
 				List<WebElement> insideCarousel = driver.findElements(By.className("viewmore_movie_images__2NctY"));
 				int contentSize = insideCarousel.size();
-
+				
 				for (int i = 0; i < 5; i++) {
 					scrollByPixel();
 					Thread.sleep(5000);
@@ -105,47 +118,36 @@ public class HomepageSunnxt extends BasePage{
 					if (insideCarousel.size() >= 30) {
 						break;
 					}
-
 				}
-
 				if(contentIndex== -1 && insideCarousel.size()>0) {
 					contentIndex = new Random().nextInt(insideCarousel.size());
 				}
-				
 				if (contentIndex >= insideCarousel.size()) {
-					System.out.println("No content at given index: " + contentIndex);
+                    logger.warn("No content at given index: " + contentIndex);
 					break;
 				}
-
 				try {
 					WebElement contentToClick  = insideCarousel.get(contentIndex);	
 					scrollIntoView(contentToClick);
 					//System.out.println("Targeted grid index: " +Integer.parseInt(contentToClick.getText().trim()));
-					
-
-
-
 					try {
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
-
 						e.printStackTrace();
 					}
-
 					try {
 						contentToClick .click();
+						//System.out.println(contentToClick.getText().trim());	
+					
 					} catch (NoSuchElementException e) {
 						e.printStackTrace();
+						
 					}
-
 					try {
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
-
 						e.printStackTrace();
 					}
-
-
 					boolean isCarouselPresent = !driver.findElements(By.className("viewmore_viewall_data__rWzIY")).isEmpty();
 					if(isCarouselPresent) {
 						clickDepth++;
@@ -153,14 +155,12 @@ public class HomepageSunnxt extends BasePage{
 					}else {
 						break;
 					}
-
 				} catch (Exception e) {
-					e.printStackTrace();
+                    logger.error("Exception occurred: ", e);
 				}
-
 			}
 		}else {
-			System.out.println("Provided Carousel isn't listed");
+            logger.warn("Provided Carousel isn't listed: " + specificCarousel);
 		}
 	}
 }
