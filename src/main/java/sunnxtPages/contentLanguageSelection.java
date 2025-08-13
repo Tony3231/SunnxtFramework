@@ -6,12 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import utility.BasePage;
+import utility.ExtentReportManager;
 import utility.Log;
 
-public class contentLanguageSelection extends BasePage {
-
+public class contentLanguageSelection extends BasePage {    
     private static final Logger logger = Log.getLogger(contentLanguageSelection.class);
-
 
 	public contentLanguageSelection(WebDriver driver) {
 		super(driver);
@@ -63,6 +62,8 @@ public class contentLanguageSelection extends BasePage {
 	}
 
 	public void clickLanguage(String language) {
+	    
+
 		if(language.equalsIgnoreCase("Tamil")) {
 			//waitForElementToBeClickable(5,tamilLanguage );
 			tamilLanguage.click();

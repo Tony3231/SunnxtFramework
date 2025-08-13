@@ -3,12 +3,14 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="premiumUserContentPlayback.TC_ContentPlaybackLiveTV">
+      <class name="premiumUserContentPlayback.TC_Login">
         <methods>
-          <include name="beforeMethod"/>
-          <include name="contentplaybackcheck"/>
+          <include name="differntLogin"/>
+          <include name="setupReport"/>
+          <include name="teardownReport"/>
+          <include name="setupTest"/>
         </methods>
-      </class> <!-- premiumUserContentPlayback.TC_ContentPlaybackLiveTV -->
+      </class> <!-- premiumUserContentPlayback.TC_Login -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

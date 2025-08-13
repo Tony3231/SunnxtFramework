@@ -13,7 +13,7 @@ import utility.BasePage;
 import utility.Log;
 
 public class ContentDetailPageSunnxt extends BasePage {
-    private static final Logger log = Log.getLogger(ContentDetailPageSunnxt.class);
+    private static final Logger logger = Log.getLogger(ContentDetailPageSunnxt.class);
 
 
 	public ContentDetailPageSunnxt(WebDriver driver) {
@@ -36,7 +36,7 @@ public class ContentDetailPageSunnxt extends BasePage {
 	private WebElement contentName;
 
 	public void clickPlayButton() {
-        log.info("Trying to click the play button...");
+		logger.info("Trying to click the play button...");
 
 		try {
 			Thread.sleep(3000);
@@ -45,15 +45,15 @@ public class ContentDetailPageSunnxt extends BasePage {
 		}
 		if(isElementPresent(playBtnLiveTV)) {
 			playBtnLiveTV.click();
-            log.info("Live TV play button found, clicking...");
+			logger.info("Live TV play button found, clicking...");
 
 		}else if(isElementPresent(playButton)) {
 			playButton.click();
-            log.info("Regular play button found, clicking...");
+			logger.info("Regular play button found, clicking...");
 
 		}
 		else {
-            log.warn("No play button found on the detail page.");
+            logger.warn("No play button found on the detail page.");
         }
 	}
 	

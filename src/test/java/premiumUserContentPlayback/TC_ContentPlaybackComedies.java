@@ -1,5 +1,6 @@
 package premiumUserContentPlayback;
 
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -9,8 +10,11 @@ import sunnxtPages.LoginPageSunnxt;
 import sunnxtPages.TopMenuSunnxt;
 import sunnxtPages.baseFunction;
 import sunnxtPages.contentLanguageSelection;
+import utility.ExtentReportManager;
+import utility.Log;
 
 public class TC_ContentPlaybackComedies extends baseFunction{
+    private static final Logger logger = Log.getLogger(TC_ContentPlaybackComedies.class);
 
 	@BeforeMethod
 	public void beforemethod() {
@@ -19,8 +23,11 @@ public class TC_ContentPlaybackComedies extends baseFunction{
 	}
 
 	@Test
-	private void contentPlaybackCheck() throws InterruptedException {
+	public void contentPlaybackCheck() throws InterruptedException {
+		logger.info("Starting playback testing for Comedies Section");
+		test = ExtentReportManager.createTest("Comedies Section Playback");
 		contentLanguageSelection cls=new contentLanguageSelection(driver);
+
 		cls.clickLanguage("tamil");
 		cls.clickDoneButton();
 
@@ -40,6 +47,8 @@ public class TC_ContentPlaybackComedies extends baseFunction{
 
 		ContentDetailPageSunnxt cdp =new ContentDetailPageSunnxt(driver);
 		cdp.clickPlayButton();
+		
+		test.pass("Playback successful in Comedies Section");
 	}
 
 }

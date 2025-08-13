@@ -1,5 +1,6 @@
 package premiumUserContentPlayback;
 
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -9,8 +10,13 @@ import sunnxtPages.LoginPageSunnxt;
 import sunnxtPages.TopMenuSunnxt;
 import sunnxtPages.baseFunction;
 import sunnxtPages.contentLanguageSelection;
+import utility.ExtentReportManager;
+import utility.Log;
 
 public class TC_ContentPlaybackHome extends baseFunction {
+	
+    private static final Logger logger = Log.getLogger(TC_ContentPlaybackHome.class);
+
 	@BeforeMethod
 	public void beforeMethod() {
 		setupDriver();
@@ -19,6 +25,8 @@ public class TC_ContentPlaybackHome extends baseFunction {
 
 	@Test(enabled =true, invocationCount = 1)
 	public void contentPlayBackCheckTest() throws InterruptedException {
+		logger.info("Starting playback testing for Home Section");
+		test = ExtentReportManager.createTest("Home Section Playback");
 		contentLanguageSelection cls=new contentLanguageSelection(driver);
 		//cls.clickAllowButton();
 		cls.clickLanguage("tamil");
@@ -38,7 +46,7 @@ public class TC_ContentPlaybackHome extends baseFunction {
 		ContentDetailPageSunnxt cdp =new ContentDetailPageSunnxt(driver);
 		cdp.clickPlayButton();
 
-		
+		test.pass("Playback successful in Home Section");
 		
 	}
 

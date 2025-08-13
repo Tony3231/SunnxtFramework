@@ -8,7 +8,13 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+
+import utility.ExtentReportManager;
 import utility.Log;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,9 +22,24 @@ import org.apache.logging.log4j.Logger; // << Needed!
 public class baseFunction {
 
 	public WebDriver driver;
+	protected static ExtentReports extent;
+	protected ExtentTest test;
     private static final Logger log = Log.getLogger(baseFunction.class);
 
+    @BeforeSuite
+	public void setupReport() {
+		extent = ExtentReportManager.getReportInstance();
+	}
 	
+	@AfterSuite
+	public void teardownReport() {
+		extent.flush();
+		//String reportPath = ExtentReportManager.reportPath;
+		//EmailUtils.sendTestReport(reportPath);
+	}
+    
+    
+    
 	public void setupDriver() {
 		ChromeOptions options=new ChromeOptions();
 		Map<String, Object> prefs=new HashMap<>();
@@ -53,7 +74,7 @@ public class baseFunction {
 
 	public void implicitWait(int seconds) {
 		driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
-      //  log.info("Applying implicit wait of {} seconds.", seconds);
+       log.info("Applying implicit wait of {} seconds.", seconds);
 
 	}
 
