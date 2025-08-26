@@ -68,7 +68,7 @@ public class baseFunction {
     }
 
     public void launchSunnxt() {
-        log.info("Launching Sun NXT...");
+        log.info("Launching Sun NXT.....");
         driver.get("https://www.sunnxt.com/");
     }
 
@@ -90,16 +90,4 @@ public class baseFunction {
 
     public String randomEmail() {
         Random random = new Random();
-        String randomEmailId = "asgkhbkjk" + random.nextInt(100) + "@hotfail.com";
-        log.debug("Generated random email: {}", randomEmailId);
-        return randomEmailId;
-    }
-
-    public void notificationBlocker() {
-        log.info("Setting Chrome options to block notifications.");
-        ChromeOptions options = new ChromeOptions();
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("profile.default_content_setting_values.notifications", 2);
-        options.setExperimentalOption("prefs", prefs);
-    }
-}
+        String randomE
