@@ -30,6 +30,9 @@ public class BasePage {
 		this.driver=driver;
 		PageFactory.initElements(driver, this);
 	}
+	public void launchSunnxt() {
+        driver.get("www.sunnxt.com");
+    }
 
 	public void waitForElementToBeClickable(int seconds, WebElement locator) {
 

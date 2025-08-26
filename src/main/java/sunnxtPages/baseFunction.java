@@ -19,6 +19,8 @@ import utility.Log;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger; // << Needed!
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class baseFunction {
 
 	public WebDriver driver;
@@ -41,17 +43,34 @@ public class baseFunction {
     
     
 	public void setupDriver() {
-		ChromeOptions options=new ChromeOptions();
-		Map<String, Object> prefs=new HashMap<>();
-		prefs.put("profile.default_content_setting_values.notifications", 2);
-		options.setExperimentalOption("prefs", prefs);
 
-		System.setProperty("webdriver.driver.chrome", "C:\\Users\\arunachalam.d\\eclipse-workspace\\TestNGFramework\\chromedriver\\chromedriver.exe");
-		driver=new ChromeDriver(options);
-		driver.manage().window().maximize();
-		log.info("Web Driver initiated. Launching Chrome Browser");
 
-		
+    // Setup ChromeDriver automatically
+    WebDriverManager.chromedriver().setup();
+
+    // Configure ChromeOptions
+    ChromeOptions options = new ChromeOptions();
+    Map<String, Object> prefs = new HashMap<>();
+    prefs.put("profile.default_content_setting_values.notifications", 2);
+    options.setExperimentalOption("prefs", prefs);
+
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--remote-allow-origins=*");
+    options.addArguments("--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
+
+    // Add headless mode for non-Windows environments
+    String os = System.getProperty("os.name").toLowerCase();
+    if (!os.contains("win")) {
+        options.addArguments("--headless=new"); // Modern headless mode
+    }
+
+    // Instantiate WebDriver
+    driver = new ChromeDriver(options);
+    driver.manage().window().maximize();
+    System.out.println("WebDriver initiated and Chrome launched using WebDriverManager");
+}	
 	}
 
 	public void launchSunnxt() {

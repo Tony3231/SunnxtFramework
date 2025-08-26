@@ -3,6 +3,7 @@ package premiumUserContentPlayback;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.annotations.AfterMethod;
 
 import sunnxtPages.ContentDetailPageSunnxt;
 import sunnxtPages.HomepageSunnxt;
@@ -12,43 +13,39 @@ import sunnxtPages.baseFunction;
 import sunnxtPages.contentLanguageSelection;
 import utility.ExtentReportManager;
 import utility.Log;
-
 public class TC_ContentPlaybackHome extends baseFunction {
-	
+
     private static final Logger logger = Log.getLogger(TC_ContentPlaybackHome.class);
 
-	@BeforeMethod
-	public void beforeMethod() {
-		setupDriver();
-		launchSunnxt();
-	}
+    @BeforeMethod
+    public void beforeMethod() {
+        setupDriver();
+        launchSunnxt(); // pass URL here
+    }
 
-	@Test(enabled =true, invocationCount = 1)
-	public void contentPlayBackCheckTest() throws InterruptedException {
-		logger.info("Starting playback testing for Home Section");
-		test = ExtentReportManager.createTest("Home Section Playback");
-		contentLanguageSelection cls=new contentLanguageSelection(driver);
-		//cls.clickAllowButton();
-		cls.clickLanguage("tamil");
-		cls.clickDoneButton();
+    @Test(enabled = true, invocationCount = 1)
+    public void contentPlayBackCheckTest() throws InterruptedException {
+        logger.info("Starting playback testing for Home Section");
+        test = ExtentReportManager.createTest("Home Section Playback");
 
-		HomepageSunnxt hp =new HomepageSunnxt(driver);
-		implicitWait(10);
-		hp.clickSignIn();
+        contentLanguageSelection cls = new contentLanguageSelection(driver);
+        cls.clickLanguage("tamil");
+        cls.clickDoneButton();
 
-		LoginPageSunnxt lp=new LoginPageSunnxt(driver);
-		lp.userDetail("9841595069", "123456");
-		
-		implicitWait(30);
-		
-		hp.contentPlayBackCheck(-1, -1);
+        HomepageSunnxt hp = new HomepageSunnxt(driver);
+        implicitWait(10);
+        hp.clickSignIn();
 
-		ContentDetailPageSunnxt cdp =new ContentDetailPageSunnxt(driver);
-		cdp.clickPlayButton();
+        LoginPageSunnxt lp = new LoginPageSunnxt(driver);
+        lp.userDetail("9841595069", "123456");
 
-		test.pass("Playback successful in Home Section");
-		
-	}
+        implicitWait(30);
+        hp.contentPlayBackCheck(-1, -1);
 
+        ContentDetailPageSunnxt cdp = new ContentDetailPageSunnxt(driver);
+        cdp.clickPlayButton();
+
+        test.pass("Playback successful in Home Section");
+    }
 
 }
