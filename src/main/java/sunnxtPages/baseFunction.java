@@ -90,4 +90,8 @@ public class baseFunction {
 
     public String randomEmail() {
         Random random = new Random();
-        String randomE
+        int randomNumber = random.nextInt(100000);
+        return "user" + randomNumber + "@example.com";
+    }
+}
+
